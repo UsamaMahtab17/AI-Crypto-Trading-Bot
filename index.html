@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Backend-to-Frontend Test</h1>
+    
+    <div>
+        <label for="strategy_id">Strategy ID:</label>
+        <input type="text" id="strategy_id" value="1234">
+        <button onclick="connectWebSocket()">Connect</button>
+    </div>
+
+    <h2>WebSocket Messages</h2>
+    <div id="messages"></div>
+
+    <script>
+        let socket;
+
+        function connectWebSocket() {
+            const strategyId = document.getElementById("strategy_id").value;
+            const wsUrl = `ws://c49f-154-192-138-32.ngrok-free.app/ws?strategy_id=${strategyId}`;
+            
+            // Establish the WebSocket connection
+            socket = new WebSocket(wsUrl);
+
+            socket.onopen = () => {
+                console.log("Connected to WebSocket server");
+                document.getElementById("messages").innerHTML += "<p>Connected!</p>";
+            };
+
+            socket.onmessage = (event) => {
+                console.log("Message from server:", event.data);
+                document.getElementById("messages").innerHTML += `<p>${event.data}</p>`;
+            };
+
+            socket.onerror = (error) => {
+                console.error("WebSocket error:", error);
+                document.getElementById("messages").innerHTML += `<p style="color:red;">Error connecting!</p>`;
+            };
+
+            socket.onclose = () => {
+                console.log("WebSocket connection closed");
+                document.getElementById("messages").innerHTML += "<p>Disconnected!</p>";
+            };
+        }
+    </script>
+</body>
+</html>

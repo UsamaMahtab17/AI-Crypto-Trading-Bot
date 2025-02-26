@@ -1,0 +1,13 @@
+
+__pycache__
+
+/new
+/env
+new
+*new
+*/new
+*.new
+*.pyc
+*.pyo
+*.pyd
+*.db
